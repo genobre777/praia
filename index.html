@@ -1,98 +1,195 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Convite pra praia 🌊</title>
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-image: url("https://source.unsplash.com/1600x900/?beach");
-      background-size: cover;
-      background-position: center;
-      font-family: Arial, sans-serif;
-      color: white;
-      text-shadow: 0px 2px 5px rgba(0,0,0,0.7);
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Convite para a Praia</title>
 
-    .container {
-      background: rgba(0, 0, 0, 0.45);
-      padding: 30px;
-      border-radius: 15px;
-      text-align: center;
-      width: 90%;
-      max-width: 450px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.5);
-    }
+<style>
+  @keyframes wave {
+    0% { background-position: 0% 100%; }
+    100% { background-position: 100% 100%; }
+  }
 
-    h1 {
-      margin-bottom: 10px;
-      font-size: 32px;
-    }
+  @keyframes fadeUp {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
 
-    p {
-      font-size: 18px;
-      margin-bottom: 25px;
-    }
+  @keyframes vibrate {
+    0% { transform: translate(0,0); }
+    25% { transform: translate(2px,-2px); }
+    50% { transform: translate(-2px,2px); }
+    75% { transform: translate(2px,2px); }
+    100% { transform: translate(0,0); }
+  }
 
-    button {
-      padding: 12px 25px;
-      font-size: 18px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      margin: 10px;
-      transition: 0.2s;
-    }
+  body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(#4fc3f7, #0288d1);
+    font-family: "Poppins", sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
 
-    .yes {
-      background: #00c853;
-      color: white;
-    }
+  .app {
+    width: 92%;
+    max-width: 420px;
+    height: 85vh;
+    background: white;
+    border-radius: 30px;
+    box-shadow: 0px 0px 40px rgba(0,0,0,0.25);
+    position: relative;
+    overflow: hidden;
+    animation: fadeUp .7s ease forwards;
+  }
 
-    .yes:hover {
-      background: #00e676;
-    }
+  .beach {
+    width: 100%;
+    height: 45%;
+    background-image: url("https://i.imgur.com/u4ZVr3y.jpeg");
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  }
 
-    .no {
-      background: #d32f2f;
-      color: white;
-    }
+  .waves {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 95px;
+    background: url("https://i.imgur.com/Da9U5bE.png");
+    background-size: 200% 100%;
+    animation: wave 6s linear infinite;
+    opacity: 0.9;
+  }
 
-    .no:hover {
-      background: #ff5252;
-    }
-  </style>
+  .content {
+    padding: 25px;
+    text-align: center;
+  }
+
+  h1 {
+    font-size: 26px;
+    margin-bottom: 5px;
+    color: #01579b;
+  }
+
+  p {
+    font-size: 17px;
+    margin-bottom: 25px;
+    color: #444;
+  }
+
+  .btn {
+    width: 100%;
+    padding: 15px;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    margin-top: 12px;
+    transition: 0.2s;
+  }
+
+  /* Botão SIM vibrando */
+  .yes {
+    background: #00c853;
+    color: white;
+    animation: vibrate .15s infinite;
+  }
+
+  /* Botão NÃO pequeno (fica menor a cada tentativa) */
+  .no {
+    background: #ff1744;
+    color: white;
+    width: 120px;
+    font-size: 14px;
+    padding: 10px;
+    margin: 0 auto;
+    display: block;
+    position: relative;
+    transition: 0.2s;
+  }
+
+  /* Tela preta final */
+  .black-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: black;
+    color: white;
+    font-size: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.4s ease;
+  }
+</style>
 </head>
 <body>
 
-  <div class="container">
-    <h1>Vamos pra praia? 🏖️</h1>
-    <p>Dia perfeito, sol lindo… bora?</p>
-
-    <button class="yes" id="btn-yes">SIM</button>
-    <button class="no" id="btn-no">NÃO</button>
+<div class="app">
+  <div class="beach">
+    <div class="waves"></div>
   </div>
 
-  <script>
-    // LINK DO NÃO – cachorro chorando
-    const noUrl = "https://media.tenor.com/3x3JvGd6zN4AAAAC/sad-dog.gif";
+  <div class="content">
+    <h1>Vamos pra praia? 🏖️</h1>
+    <p>Dia lindo, as ondas te chamando... bora?</p>
 
-    // LINK DO SIM – WhatsApp direto para +5585991207190
-    const whatsappUrl = "https://api.whatsapp.com/send?phone=5585991207190&text=ate%20que%20fim%20aceitou%20AAAAAAAAAA";
+    <button class="btn yes" id="btn-yes">SIM 🌞</button>
+    <button class="btn no" id="btn-no">não...</button>
+  </div>
 
-    document.getElementById("btn-no").addEventListener("click", () => {
-      window.open(noUrl, "_blank");
-    });
+  <div class="black-screen" id="black-screen">sou triste demais</div>
+</div>
 
-    document.getElementById("btn-yes").addEventListener("click", () => {
-      window.open(whatsappUrl, "_blank");
-    });
-  </script>
+<script>
+  const whatsappUrl =
+    "https://api.whatsapp.com/send?phone=5585991207190&text=ate%20que%20fim%20aceitou%20AAAAAAAAAA";
+
+  document.getElementById("btn-yes").addEventListener("click", () => {
+    window.open(whatsappUrl, "_blank");
+  });
+
+  const noBtn = document.getElementById("btn-no");
+  const blackScreen = document.getElementById("black-screen");
+
+  let escapeCount = 0;
+  let currentSize = 120; // tamanho inicial do botão
+
+  noBtn.addEventListener("mouseover", () => {
+    escapeCount++;
+
+    // Encolhe a cada tentativa
+    currentSize -= 15;
+    if (currentSize < 40) currentSize = 40; // limite mínimo
+    noBtn.style.width = currentSize + "px";
+    noBtn.style.fontSize = Math.max(10, currentSize / 8) + "px";
+    noBtn.style.padding = (currentSize / 10) + "px";
+
+    if (escapeCount <= 3) {
+      // Move o botão aleatoriamente
+      const x = Math.random() * 200 - 100;
+      const y = Math.random() * 200 - 100;
+      noBtn.style.transform = `translate(${x}px, ${y}px)`;
+    }
+
+    if (escapeCount === 4) {
+      blackScreen.style.opacity = "1";
+      blackScreen.style.pointerEvents = "all";
+    }
+  });
+</script>
 
 </body>
 </html>
